@@ -29,12 +29,16 @@ private:
 class SimplePrometheusExporter {
 public:
 
+    SimplePrometheusExporter();
+    ~SimplePrometheusExporter();
+
     void putMetric(String name, SimplePrometheusExporterMetric* metric);
-    String* getMetricString();
+    const char* getMetricString();
 
 private:
 
-    std::map<String, SimplePrometheusExporterMetric*> map;
+    std::map<String, SimplePrometheusExporterMetric*>* map;
+    std::string* msg;
 
 };
 

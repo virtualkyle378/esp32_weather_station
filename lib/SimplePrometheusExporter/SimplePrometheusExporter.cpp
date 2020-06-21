@@ -10,33 +10,43 @@ SimplePrometheusExporterMetric::~SimplePrometheusExporterMetric() {
 
 }
 
-void SimplePrometheusExporter::putMetric(String name, SimplePrometheusExporterMetric* metric) {
-    this->map[name] = metric;
+SimplePrometheusExporter::SimplePrometheusExporter() {
+    this->map = new std::map<String, SimplePrometheusExporterMetric*>();
+    this->msg = new std::string();
 }
 
-String* SimplePrometheusExporter::getMetricString() {
-    String* msg = new String("");
-    for (std::pair<String, SimplePrometheusExporterMetric*> const& x : this->map)
+SimplePrometheusExporter::~SimplePrometheusExporter() {
+    delete this->map;
+    delete this->msg;
+}
+
+void SimplePrometheusExporter::putMetric(String name, SimplePrometheusExporterMetric* metric) {
+    (*this->map)[name] = metric;
+}
+
+const char* SimplePrometheusExporter::getMetricString() {
+    this->msg->resize(0);
+    for (std::pair<String, SimplePrometheusExporterMetric*> const& x : *this->map)
     {
         //# HELP mpl3115a2_pressure Pressure according to the MPL3115A2 (Pa)
         //# TYPE mpl3115a2_pressure gauge
         //mpl3115a2_pressure 100764.5
-        *msg += "# HELP ";
-        *msg += x.first;
-        *msg += " ";
-        *msg += x.second->description;
-        *msg += "\n# TYPE ";
-        *msg += x.first;
+        msg->append("# HELP ");
+        msg->append(x.first.c_str());
+        msg->append(" ");
+        msg->append(x.second->description.c_str());
+        msg->append("\n# TYPE ");
+        msg->append(x.first.c_str());
         if(x.second->type == SimplePrometheusExporterMetricType::COUNTER) {
-            *msg += " counter";
+            msg->append(" counter");
         } else {
-            *msg += " gauge";
+            msg->append(" gauge");
         }
-        *msg += "\n";
-        *msg += x.first;
-        *msg += " ";
-        *msg += x.second->valueSupplier();
-        *msg += "\n";
+        msg->append("\n");
+        msg->append(x.first.c_str());
+        msg->append(" ");
+        msg->append(String(x.second->valueSupplier()).c_str());
+        msg->append("\n");
     }
-    return msg;
+    return msg->c_str();
 }

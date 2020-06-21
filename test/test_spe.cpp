@@ -39,8 +39,8 @@ void test_spe(void) {
     expected += "# TYPE mpl3115a2_temperature gauge\n";
     expected += "mpl3115a2_temperature 22.75\n";
 
-    String* actual = spe->getMetricString();
-    TEST_ASSERT_EQUAL_STRING(expected.c_str(), (*actual).c_str());
+    const char* actual = spe->getMetricString();
+    TEST_ASSERT_EQUAL_STRING(expected.c_str(), String(actual).c_str());
 
     delete spe;
 }
