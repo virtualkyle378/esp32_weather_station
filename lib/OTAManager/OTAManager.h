@@ -6,7 +6,7 @@
 
 class OTAManager {
 public:
-    OTAManager();
+    OTAManager(const char* password);
     virtual ~OTAManager();
 
     void handle();

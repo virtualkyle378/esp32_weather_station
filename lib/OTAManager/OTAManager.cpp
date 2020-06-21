@@ -1,7 +1,7 @@
 
 #include "OTAManager.h"
 
-OTAManager::OTAManager() {
+OTAManager::OTAManager(const char* password) {
   ArduinoOTA
     .onStart([]() {
       String type;
@@ -28,6 +28,7 @@ OTAManager::OTAManager() {
       else if (error == OTA_END_ERROR) Serial.println("End Failed");
     });
 
+  ArduinoOTA.setPassword(password);
   ArduinoOTA.begin();
 }
 

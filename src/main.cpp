@@ -10,6 +10,8 @@
 WeatherStation* weatherStation;
 OTAManager* otaManager;
 
+unsigned long previousMillis;
+
 void setup() {
   // Initialize serial for output.
   Serial.begin(115200);
@@ -33,8 +35,9 @@ void setup() {
   Serial.println(WiFi.macAddress());
 
   weatherStation = WeatherStation::getInstance();
-  otaManager = new OTAManager();
+  otaManager = new OTAManager(otaPassword);
 
+  previousMillis = millis();
 }
 
 void loop() {
@@ -42,9 +45,10 @@ void loop() {
   otaManager->handle();
 
   if(PRINT_STATS_TO_CONSOLE) {
-    weatherStation->printStatsToConsole();
-    delay(500);
-  } else {
-    delay(50);
+    unsigned long currentMillis = millis();
+    if (currentMillis - previousMillis >= 500) {
+      weatherStation->printStatsToConsole();
+      previousMillis = currentMillis;
+    }
   }
 }
