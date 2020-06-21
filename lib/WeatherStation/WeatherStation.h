@@ -25,9 +25,11 @@ private:
 
     void handleRoot();
     void handleNotFound();
+    void handleDiagnostics();
 
     static void callHandleRoot();
     static void callHandleNotFound();
+    static void callHandleDiagnostics();
     static float callGetCurrentHTS221Humidity();
     static float callGetCurrentHTS221Temperature();
 
@@ -37,6 +39,11 @@ private:
   
     float currHTS221Humidity;
     float currHTS221Temperature;
+  
+    float rawCurrHTS221Humidity;
+    int rawCurrHTS221HumidityResultCode;
+    float rawCurrHTS221Temperature;
+    int rawCurrHTS221TemperatureResultCode;
 
     static WebServer* server;
     static WeatherStation* instance;

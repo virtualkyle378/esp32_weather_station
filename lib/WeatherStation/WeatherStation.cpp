@@ -35,6 +35,8 @@ WeatherStation::WeatherStation() {
 
   server->on("/", WeatherStation::callHandleRoot);
   server->on("/metrics", WeatherStation::callHandleRoot);
+  server->on("/diag", WeatherStation::callHandleDiagnostics);
+  server->on("/diagnostics", WeatherStation::callHandleDiagnostics);
   server->onNotFound( WeatherStation::callHandleNotFound);
 
   server->begin();
@@ -53,6 +55,10 @@ void WeatherStation::callHandleRoot() {
 
 void WeatherStation::callHandleNotFound() {
   WeatherStation::instance->handleNotFound();
+}
+
+void WeatherStation::callHandleDiagnostics() {
+  WeatherStation::instance->handleDiagnostics();
 }
 
 void WeatherStation::handleRoot() {
@@ -74,6 +80,19 @@ void WeatherStation::handleNotFound() {
   server->send(404, "text/html", message);
 }
 
+void WeatherStation::handleDiagnostics() {
+  String message = "Diagnostics";
+  message += "\nrawCurrHTS221Humidity: ";
+  message +=  rawCurrHTS221Humidity;
+  message += "\nrawCurrHTS221HumidityResultCode: ";
+  message +=  rawCurrHTS221HumidityResultCode;
+  message += "\nrawCurrHTS221Temperature: ";
+  message +=  rawCurrHTS221Temperature;
+  message += "\nrawCurrHTS221TemperatureResultCode: ";
+  message +=  rawCurrHTS221TemperatureResultCode;
+  server->send(200, "text/plain", message);
+}
+
 void WeatherStation::handleClients() {
   server->handleClient();
 }
@@ -87,7 +106,10 @@ void WeatherStation::printStatsToConsole() {
 }
     
 float WeatherStation::getCurrentHTS221Humidity() {
-  if(hts221->GetHumidity(&currHTS221Humidity) != HTS221_STATUS_OK) {
+  int resultCode = hts221->GetHumidity(&currHTS221Humidity);
+  rawCurrHTS221Humidity = currHTS221Humidity;
+  rawCurrHTS221HumidityResultCode = resultCode;
+  if(resultCode != HTS221_STATUS_OK || currHTS221Humidity == 6553.5) {
     currHTS221Humidity = NAN;
   }
   return currHTS221Humidity;
@@ -98,7 +120,10 @@ float WeatherStation::callGetCurrentHTS221Humidity() {
 }
 
 float WeatherStation::getCurrentHTS221Temperature() {
-  if(hts221->GetTemperature(&currHTS221Temperature) != HTS221_STATUS_OK) {
+  int resultCode = hts221->GetTemperature(&currHTS221Temperature);
+  rawCurrHTS221Temperature = currHTS221Temperature;
+  rawCurrHTS221TemperatureResultCode = resultCode;
+  if(resultCode != HTS221_STATUS_OK) {
     currHTS221Temperature = NAN;
   }
   return currHTS221Temperature;
