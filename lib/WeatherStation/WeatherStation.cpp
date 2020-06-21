@@ -132,3 +132,7 @@ float WeatherStation::getCurrentHTS221Temperature() {
 float WeatherStation::callGetCurrentHTS221Temperature() {
   return instance->getCurrentHTS221Temperature();
 }
+
+SimplePrometheusExporter* WeatherStation::getSimplePrometheusExporter() {
+  return simplePrometheusExporter;
+}

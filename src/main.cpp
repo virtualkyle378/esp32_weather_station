@@ -5,9 +5,11 @@
 
 #include "constants.h"
 #include "WeatherStation.h"
+#include "ESPTelemetry.h"
 #include "OTAManager.h"
 
 WeatherStation* weatherStation;
+ESPTelemetry* espTelemetry;
 OTAManager* otaManager;
 
 unsigned long previousMillis;
@@ -35,6 +37,8 @@ void setup() {
   Serial.println(WiFi.macAddress());
 
   weatherStation = WeatherStation::getInstance();
+  SimplePrometheusExporter* exporter = weatherStation->getSimplePrometheusExporter();
+  espTelemetry = new ESPTelemetry(exporter);
   otaManager = new OTAManager(otaPassword);
 
   previousMillis = millis();

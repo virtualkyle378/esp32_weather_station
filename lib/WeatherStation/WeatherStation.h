@@ -18,6 +18,8 @@ public:
     float getCurrentHTS221Humidity();
     float getCurrentHTS221Temperature();
 
+    SimplePrometheusExporter* getSimplePrometheusExporter();
+
 private:
 
     WeatherStation();
