@@ -5,8 +5,10 @@
 
 #include "constants.h"
 #include "WeatherStation.h"
+#include "OTAManager.h"
 
 WeatherStation* weatherStation;
+OTAManager* otaManager;
 
 void setup() {
   // Initialize serial for output.
@@ -31,10 +33,13 @@ void setup() {
   Serial.println(WiFi.macAddress());
 
   weatherStation = WeatherStation::getInstance();
+  otaManager = new OTAManager();
+
 }
 
 void loop() {
   weatherStation->handleClients();
+  otaManager->handle();
 
   if(PRINT_STATS_TO_CONSOLE) {
     weatherStation->printStatsToConsole();

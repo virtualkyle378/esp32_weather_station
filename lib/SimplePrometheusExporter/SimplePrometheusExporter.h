@@ -30,7 +30,7 @@ class SimplePrometheusExporter {
 public:
 
     SimplePrometheusExporter();
-    ~SimplePrometheusExporter();
+    virtual ~SimplePrometheusExporter();
 
     void putMetric(String name, SimplePrometheusExporterMetric* metric);
     const char* getMetricString();

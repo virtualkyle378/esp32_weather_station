@@ -21,7 +21,7 @@ public:
 private:
 
     WeatherStation();
-    ~WeatherStation();
+    virtual ~WeatherStation();
 
     void handleRoot();
     void handleNotFound();
