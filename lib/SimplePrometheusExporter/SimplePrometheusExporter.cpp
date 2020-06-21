@@ -16,11 +16,17 @@ SimplePrometheusExporter::SimplePrometheusExporter() {
 }
 
 SimplePrometheusExporter::~SimplePrometheusExporter() {
+    for (std::pair<String, SimplePrometheusExporterMetric*> const& x : *this->map) {
+        delete x.second;
+    }
     delete this->map;
     delete this->msg;
 }
 
 void SimplePrometheusExporter::putMetric(String name, SimplePrometheusExporterMetric* metric) {
+    if(this->map->find(name) != this->map->end()) {
+        delete (*this->map)[name];
+    }
     (*this->map)[name] = metric;
 }
 
