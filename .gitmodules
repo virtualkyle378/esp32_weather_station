@@ -1,3 +1,6 @@
 [submodule "lib/HTS221"]
 	path = lib/HTS221
 	url = https://github.com/stm32duino/HTS221
+[submodule "lib/Adafruit_MPL3115A2_Library"]
+	path = lib/Adafruit_MPL3115A2_Library
+	url = https://github.com/adafruit/Adafruit_MPL3115A2_Library

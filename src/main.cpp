@@ -36,6 +36,7 @@ void setup() {
   Serial.print("MAC address: ");
   Serial.println(WiFi.macAddress());
 
+  WeatherStation::initInstance(enableMpl311a2);
   weatherStation = WeatherStation::getInstance();
   SimplePrometheusExporter* exporter = weatherStation->getSimplePrometheusExporter();
   espTelemetry = new ESPTelemetry(exporter);
