@@ -61,7 +61,7 @@ WeatherStation::WeatherStation(bool enableMpl311a2) {
     ));
   }
 
-  server = new WebServer(80);  // Object of WebServer(HTTP port, 80 is defult)
+  server = new WebServer(8000);  // Object of WebServer(HTTP port, 80 is defult)
 
   server->on("/", WeatherStation::callHandleRoot);
   server->on("/metrics", WeatherStation::callHandleRoot);
