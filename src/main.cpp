@@ -3,7 +3,8 @@
 #include <Wire.h>
 #include <WiFi.h>
 
-#include "constants.h"
+#include "global_constants.h"
+#include "device_constants.h"
 #include "WeatherStation.h"
 #include "ESPTelemetry.h"
 #include "OTAManager.h"

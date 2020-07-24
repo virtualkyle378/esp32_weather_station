@@ -1,0 +1,6 @@
+ip_address,hostname,enableMpl311a2
+192.168.2.50,weather_station_dev,true
+192.168.2.51,weather_station_red,false
+192.168.2.52,weather_station_blue,false
+192.168.2.53,weather_station_green,false
+192.168.2.54,weather_station_black,false
